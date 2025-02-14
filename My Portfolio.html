@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRIDHARSAN R - ERPNext Functional Consultant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #e0e0e0;
+      background-image: url('https://images.pexels.com/photos/30469974/pexels-photo-30469974.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+
+  /* Fixed Header Adjustments */
+  .header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    z-index: 1000;
+    background: #000;
+    overflow: hidden;
+  }
+
+  /* Main Content Spacing */
+  .container {
+    margin-top: 120px; /* 100px header + 20px spacing */
+    padding-top: 20px;
+  }
+
+    .container {
+      max-width: 1400px; /* Increased body width */
+      margin: 0 auto;
+      gap: 20px;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav {
+      display: flex;
+      justify-content: flex-start;
+      gap: 20px;
+      padding: 10px 0;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    nav a:first-child {
+      margin-left: 25px; /* Added margin to the first nav item */
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.1rem;
+      padding: 10px 20px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+    }
+
+    section {
+      padding: 40px;
+      margin: 20px 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: slideIn 1s ease-in-out;
+      backdrop-filter: blur(10px);
+      display: none;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #e0e0e0;
+      margin-bottom: 20px;
+    }
+
+    section ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    section ul li {
+      font-size: 1.1rem;
+      margin: 10px 0;
+      color: #e0e0e0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .grid-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      aspect-ratio: 1 / 1;
+    }
+
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .grid-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+    }
+
+    .grid-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .grid-item .title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .grid-heading {
+      font-size: 1.5rem;
+      margin: 30px 0 20px 0;
+      color: #e0e0e0;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    hr {
+      border: 1px solid #00f8ff;
+      margin: 30px 0;
+    }
+
+    .image-page {
+      display: none;
+      padding: 40px;
+      margin: 20px 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      position: relative;
+    }
+
+    .image-page.active {
+      display: block;
+    }
+
+    .image-page img {
+      max-width: 100%;
+      max-height: 500px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .image-page h3 {
+      font-size: 1.5rem;
+      margin: 10px 0;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .image-page p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #e0e0e0;
+      margin: 0 0 20px 0;
+    }
+
+    .image-page .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .image-page .nav-buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .image-page .nav-buttons button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+    }
+
+    .scrollable-description {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      margin-bottom: 20px;
+      text-align: left;
+      color: #e0e0e0;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-container">
+    <img src="https://i.imgur.com/bCVIVXI.jpg" alt="Header Image" class="header-image">
+  </div>
+
+  <div class="container">
+    <!-- Navigation -->
+    <nav>
+      <a href="#about-me" onclick="showSection('about-me')"><i class="fas fa-user"></i> About Me</a>
+      <a href="#my-works" onclick="showSection('my-works')"><i class="fas fa-briefcase"></i> My Works</a>
+      <a href="#my-customizations" onclick="showSection('my-customizations')"><i class="fas fa-cogs"></i> My Customizations</a>
+    </nav>
+
+    <!-- About Me Page -->
+    <section id="about-me" class="active">
+      <h2>👤 About Me</h2>
+      <p>👤 Name: SRIDHARSAN R</p>
+      <p>💼 Title: ERPNext Functional Consultant</p>
+      <p>🏢 Company: Faircode Technologies Pvt Ltd</p>
+      <p>📞 Contact: +91 87542 05947</p>
+      <hr>
+      <p>I am an experienced ERPNext Functional Consultant specializing in end-to-end ERPNext implementation, customization, and optimization across various industries. My expertise lies in streamlining ERP processes, reducing implementation timelines, and delivering high-quality solutions tailored to client needs. I am also an active member of the Frappe Forum, contributing to discussions and resolving functional queries.</p>
+      <h2>🏅 Achievements & Recognition</h2>
+      <ul>
+        <li>🏆 Best ERPNext Consultant Award – Recognized by my company for optimizing implementation timelines, reducing deployment time by 50%, and enhancing system efficiency by developing streamlined workflows and automation solutions.</li>
+        <li>🌟 Client Appreciation – Received numerous thank-you messages from clients across different industries for providing critical ERPNext support.</li>
+      </ul>
+      <hr>
+      <h2>📩 Contact</h2>
+      <p>I am open to new opportunities, collaborations, and projects. Feel free to reach out! 🚀</p>
+      <p>📧 Personal Email: <a href="mailto:sridharsan1417@gmail.com">sridharsan1417@gmail.com</a></p>
+      <p>📧 Company Email: <a href="mailto:sridharsan@faircodetech.com">sridharsan@faircodetech.com</a></p>
+      <p>🌐 Website: [🌍 Coming Soon]</p>
+      <p>📞 Phone: +91 87542 05947</p>
+      <p>🔗 LinkedIn: <a href="#">LinkedIn Profile</a></p>
+      <hr>
+      <h2>💡 Let's Connect & Transform ERP Implementation! 🚀</h2>
+      <p>Unlock the full potential of ERPNext with expert guidance tailored to your business needs. With a proven track record in ERP consulting, custom development, and process optimization, I specialize in delivering seamless, efficient, and scalable ERP solutions.</p>
+      <p>Whether you're looking to enhance system functionality, streamline workflows, or integrate advanced features, let's collaborate to drive transformation and maximize efficiency.</p>
+      <p>📩 Get in touch today to take your ERP implementation to the next level!</p>
+    </section>
+
+    <!-- My Works & Creations Page -->
+    <section id="my-works">
+      <h2>🏗️ My Works & Creations</h2>
+      <p>I have worked extensively on all ERPNext modules, handling customizations, reports, and functionality improvements. One of my standout projects involved optimizing the Manufacturing module for a client, reducing production planning time by 40% through custom workflows and automated reports. Below is a detailed breakdown:</p>
+      <h2>📚 ERPNext Modules</h2>
+      <ul>
+        <li>📒 Accounting</li>
+        <li>🏢 HR & Payroll</li>
+        <li>📦 Stock & Inventory</li>
+        <li>🛒 Sales & Purchase</li>
+        <li>🏭 Manufacturing</li>
+        <li>🔍 Quality Inspection</li>
+        <li>📞 CRM</li>
+        <li>🏥 Healthcare</li>
+        <li>🎓 Education</li>
+        <li>📚 LMS (Learning Management System)</li>
+        <li>📑 Projects & Tasks</li>
+        <li>💡 Support & Helpdesk</li>
+        <li>🌍 Website & E-commerce</li>
+        <li>👥 Employees & Users</li>
+        <li>🏦 Bank Reconciliation Statement & Clearance</li>
+        <li>🔧 Custom Applications</li>
+      </ul>
+      <hr>
+      <h2>🔧 Custom Development for ERPNext</h2>
+      <ul>
+        <li>📊 Custom Workspaces & Dashboards</li>
+        <li>🎯 Created multiple customized workspaces for different industries.</li>
+        <li>📈 Designed dashboards with custom Number Cards & Charts.</li>
+        <li>📜 Custom Reports & Doctypes</li>
+        <li>🏆 Developed industry-specific reports and custom doctypes to enhance business operations.</li>
+        <li>🌐 Web Page & Web Form Customization</li>
+        <li>🖥️ Designed and developed custom web pages and forms for unique business requirements.</li>
+        <li>📥 Import Doctypes & Reports</li>
+        <li>✅ Successfully implemented and configured import doctypes and reports for data migration.</li>
+        <li>🔗 Custom Integrations for ERPNext</li>
+        <li>🔄 Successfully integrated Google Drive, Google Calendar, Google Contacts, Gmail, Razorpay, Shopify, GST (India Compliance), WhatsApp, Facebook, Instagram, etc.</li>
+        <li>📂 Bulk Data Import for All Documents</li>
+        <li>📑 Bulk Data importing for Bank Reconciliation Statements, Item, Asset, Employees, Purchase Invoice Bills, Sales Invoice Bills, etc.</li>
+        <li>🛠️ Custom Workflow Creation</li>
+        <li>🚀 Developed custom workflows based on different approval/rejection levels & stages. Implemented for various industry-based approvals, e.g., Amazon delivery approvals.</li>
+      </ul>
+      <hr>
+      <h2>🎯 Skills & Expertise</h2>
+      <ul>
+        <li>⚙️ Custom Workspace Creation</li>
+        <li>📊 Custom Dashboard & Number Card Creation</li>
+        <li>📈 Custom Dashboard Chart Creation</li>
+        <li>📑 Custom Reports & Module Creation</li>
+        <li>📝 Custom Doctype Creation</li>
+        <li>🌐 Custom Web Page and Web Form Creation</li>
+      </ul>
+      <p>I have implemented and customized these features for various industries and domains, ensuring seamless ERPNext integration and usability.</p>
+      <hr>
+      <h2>🎓 Training Experience:</h2>
+      <p>I have successfully trained 40+ interns and freshers on ERPNext functionality, guiding them to become proficient ERPNext consultants. 
+Throughout the training process, I provided comprehensive guidance on various modules, ensuring that each participant gained a deep understanding of the software's capabilities. My approach included hands-on exercises, real-world scenarios, and interactive discussions to foster a practical learning environment. 
+As a result, these individuals have transformed into proficient ERPNext consultants, ready to tackle challenges in the industry. Witnessing their growth and confidence has been incredibly rewarding, and I take pride in contributing to their professional development.</p>
+    </section>
+
+    <!-- My Customizations Page -->
+    <section id="my-customizations">
+      <h2>🔧 My Customizations</h2>
+      <h3 class="grid-heading">Custom Creations</h3>
+      <div class="grid">
+        <div class="grid-item" onclick="openImagePage(0)">
+          <img src="https://i.imgur.com/1pIGiqk.png" alt="Asset & Insurance Summary Dashboard">
+          <div class="title">Asset & Insurance Summary Dashboard</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(1)">
+          <img src="https://i.imgur.com/CPD5KXG.png" alt="Asset Distribution Overview">
+          <div class="title">Asset Distribution Overview</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(2)">
+          <img src="https://i.imgur.com/xGFI4EH.png" alt="Asset Distribution Insights">
+          <div class="title">Asset Distribution Insights</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(3)">
+          <img src="https://i.imgur.com/B7c0Z49.png" alt="Cost Center Asset Overview">
+          <div class="title">Cost Center Asset Overview</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(4)">
+          <img src="https://i.imgur.com/ZJAIpXG.png" alt="Payroll Dashboard">
+          <div class="title">Payroll Dashboard</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(5)">
+          <img src="https://i.imgur.com/R8vtc7E.png" alt="Salary Distribution & Attendance Dashboard">
+          <div class="title">Salary Distribution & Attendance Dashboard</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(6)">
+          <img src="https://i.imgur.com/OLlzCly.png" alt="Custom - Construction Management System">
+          <div class="title">Custom - Construction Management System</div>
+        </div>
+      </div>
+      <hr>
+      <h3 class="grid-heading">My Simplifications</h3>
+      <div class="grid">
+        <div class="grid-item" onclick="openImagePage(7)">
+          <img src="https://i.imgur.com/PwMnIqG.png" alt="Figma inside ERPNext">
+          <div class="title">Figma inside ERPNext</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(8)">
+          <img src="https://i.imgur.com/FhtexGt.png" alt="YouTube Video inside ERPNext">
+          <div class="title">YouTube Video inside ERPNext</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(9)">
+          <img src="https://i.imgur.com/WCpHVK9.png" alt="Website Job Openings">
+          <div class="title">Website Job Openings</div>
+        </div>
+        <div class="grid-item" onclick="openImagePage(10)">
+          <img src="https://i.imgur.com/MYSKKAj.png" alt="Google Map inside ERPNext">
+          <div class="title">Google Map inside ERPNext</div>
+        </div>
+      </div>
+      <hr>
+    </section>
+
+    <!-- Image Page -->
+    <div id="image-page" class="image-page">
+      <button class="back-button" onclick="showSection('my-customizations')">Back</button>
+      <h3 id="image-title"></h3>
+      <img id="image-full" src="" alt="">
+      <div class="scrollable-description">
+        <p id="image-description"></p>
+      </div>
+      <div class="nav-buttons">
+        <button onclick="prevImage()">Previous</button>
+        <button onclick="nextImage()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Section handling
+    function showSection(sectionId) {
+      document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Image Data
+    const images = [
+      {
+        src: 'https://i.imgur.com/1pIGiqk.png',
+        title: 'Asset & Insurance Summary Dashboard',
+        description: 'The "Asset Card Reports" dashboard is a visual summary providing a holistic view of an organization\'s asset and insurance-related metrics. It helps stakeholders quickly analyze the status, value, and performance of assets along with associated depreciation and insurance details. This dashboard is vital for asset management, financial evaluation, and planning.'
+      },
+      {
+        src: 'https://i.imgur.com/CPD5KXG.png',
+        title: 'Asset Distribution Overview',
+        description: 'The image provides a detailed visual representation of asset data within an organization, divided into three insightful sections using bar and pie charts. These sections enable quick evaluation of asset status, departmental ownership, and category-wise classification.'
+      },
+      {
+        src: 'https://i.imgur.com/xGFI4EH.png',
+        title: 'Asset Distribution Insights',
+        description: 'The image represents a dashboard view of an organization\'s asset data, broken down into three sections focusing on the total asset count by location, asset cost by location, and asset count by custodian. These visualizations offer a comprehensive view of asset distribution and assignment, aiding in resource planning and financial management.'
+      },
+      {
+        src: 'https://i.imgur.com/B7c0Z49.png',
+        title: 'Cost Center Asset Overview',
+        description: 'The image showcases a detailed dashboard focusing on the distribution of assets across different cost centers. It provides insights into asset count and cost, enabling better financial oversight and resource allocation.'
+      },
+      {
+        src: 'https://i.imgur.com/ZJAIpXG.png',
+        title: 'Payroll Dashboard',
+        description: 'The Payroll Dashboard in the image provides a comprehensive overview of salary distributions, employee attendance, and department-wise salary counts.'
+      },
+      {
+        src: 'https://i.imgur.com/R8vtc7E.png',
+        title: 'Salary Distribution & Attendance Dashboard',
+        description: 'The image provides a detailed visual representation of salary and attendance data within an organization.'
+      },
+      {
+        src: 'https://i.imgur.com/OLlzCly.png',
+        title: 'Custom - Construction Management System',
+        description: 'I have developed a comprehensive Construction Management System (CMS) as a custom module designed specifically to address the needs of construction-based companies.'
+      },
+      {
+        src: 'https://i.imgur.com/PwMnIqG.png',
+        title: 'Figma inside ERPNext',
+        description: 'To enhance the user experience and improve design reference accessibility within ERPNext, I integrated Figma documents directly into the system by utilizing Custom HTML Blocks in Custom Workspaces.'
+      },
+      {
+        src: 'https://i.imgur.com/FhtexGt.png',
+        title: 'YouTube Video inside ERPNext',
+        description: 'To facilitate the onboarding process and ensure that new employees can quickly adapt to ERPNext, I integrated YouTube ERPNext Training Videos directly into Custom Workspaces within ERPNext using Custom HTML Blocks with iframe embedding.'
+      },
+      {
+        src: 'https://i.imgur.com/WCpHVK9.png',
+        title: 'Website Job Openings',
+        description: 'ERPNext’s built-in Job Openings and Application Management System provides an efficient and user-friendly approach for HR teams to create, manage, and publish job vacancies directly from the ERP interface to the company’s website frontend.'
+      },
+      {
+        src: 'https://i.imgur.com/MYSKKAj.png',
+        title: 'Google Map inside ERPNext',
+        description: 'Incorporating Google Maps iFrame directly into ERPNext custom workspaces allows users to visually navigate and verify geographical locations without the need to switch between platforms or open external mapping applications.'
+      }
+    ];
+
+    let currentImageIndex = 0;
+
+    // Show the selected section and hide others
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+      document.getElementById('image-page').classList.remove('active');
+    }
+
+    // Open Image Page
+    function openImagePage(index) {
+      currentImageIndex = index;
+      const imagePage = document.getElementById('image-page');
+      const imageTitle = document.getElementById('image-title');
+      const imageFull = document.getElementById('image-full');
+      const imageDescription = document.getElementById('image-description');
+
+      imageTitle.textContent = images[index].title;
+      imageFull.src = images[index].src;
+      imageDescription.textContent = images[index].description;
+
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+      });
+      imagePage.classList.add('active');
+    }
+
+    // Navigate to Previous Image
+    function prevImage() {
+      if (currentImageIndex > 0) {
+        currentImageIndex--;
+        openImagePage(currentImageIndex);
+      }
+    }
+
+    // Navigate to Next Image
+    function nextImage() {
+      if (currentImageIndex < images.length - 1) {
+        currentImageIndex++;
+        openImagePage(currentImageIndex);
+      }
+    }
+
+    // Set default landing page
+    showSection('about-me');
+  </script>
+</body>
+</html>
